@@ -32,9 +32,9 @@ def preprocess_single_img(filepath, rotation=0, show=False, crop=True, dim=(224,
 
 
 if __name__ == "__main__":
-    _ = preprocess_single_img("images/000001_0.jpg",
+    print(preprocess_single_img("images/000001_0.jpg",
                             rotation=45,
                             show=True,
                             crop=False,
                             dim=(224,224),
-                            preprocess_function=preprocess_input)
+                            preprocess_function=preprocess_input))

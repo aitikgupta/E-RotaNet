@@ -73,4 +73,4 @@ if __name__ == "__main__":
     model = load_model(args.model_path, custom_objects={'angle_loss': angle_loss})
     args.model_path = model
 
-    _ = predict_single(args.__dict__, show=True, crop=True)
+    print(predict_single(args.__dict__, show=True, crop=True))
