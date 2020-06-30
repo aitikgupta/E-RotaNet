@@ -1,0 +1,90 @@
+<!doctype html>
+<title>E-RotaNet</title>
+<head>
+	<style>
+#container {
+    text-align: center;
+}
+a, figure {
+    display: inline-block;
+}
+figcaption {
+    margin: 10px 0 0 0;
+    font-variant: small-caps;
+    font-family: Arial;
+    font-weight: bold;
+    color: #bb3333;
+}
+figure {
+    padding: 5px;
+}
+img:hover {
+    transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
+}
+img {
+    transition: transform 0.2s;
+    -webkit-transition: -webkit-transform 0.2s;
+    -moz-transition: -moz-transform 0.2s;
+    -o-transition: -o-transform 0.2s;
+}
+		</style>
+</head>
+<body>
+	<h2>Upload an image and let the model do its work!</h2>
+	<p>
+		{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul class=flashes>
+			{% for message in messages %}
+			<li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+		{% endwith %}
+	</p>
+	<div id="container">
+	{% if filename %}
+		{% if filename[0] %}
+			<a href="#">
+				<figure>
+					<img src="{{ url_for('display_image', filename=filename[0]) }}" width="350px" height="350px">
+					<figcaption>Original Image</figcaption>
+				</figure>
+			</a>
+		{% endif %}
+		{% if filename[1] %}
+			<a href="#">
+				<figure>
+					<img src="{{ url_for('display_image', filename=filename[1][0]) }}" width="350px" height="350px">
+					<figcaption>Random Rotation ({{ filename[1][1] }} degrees)</figcaption>
+				</figure>
+			</a>
+		{% endif %}
+		{% if filename[2] %}
+			<a href="#">
+				<figure>
+					<img src="{{ url_for('display_image', filename=filename[2][0]) }}" width="350px" height="350px">
+					<figcaption>Result ({{ filename[2][1] }} degrees)</figcaption>
+				</figure>
+			</a>
+		{% endif %}
+	{% endif %}
+	</div>
+
+	<p>
+		<form method="post" action="/" enctype="multipart/form-data">
+			<dl>
+				<p>
+					<input type="file" name="file" autocomplete="off" required>
+				</p>
+			</dl>
+			<p>
+				<input type="submit" value="Submit">
+			</p>
+		</form>
+	</p>
+</body>
