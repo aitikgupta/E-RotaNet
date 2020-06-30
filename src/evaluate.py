@@ -54,7 +54,8 @@ def evaluate_single_with_all_rotations(args):
     for current_rotation_angle in tqdm(range(360), total=360):
 
         img_processed = preprocess_single_img(args['eval_single'],
-                            rotation=current_rotation_angle,   # Rotating by current_rotation_angle                            show=False,
+                            rotation=current_rotation_angle,   # Rotating by current_rotation_angle
+                            show=False,
                             crop=True,
                             dim=args['img_size'],
                             preprocess_function=preprocess_input
