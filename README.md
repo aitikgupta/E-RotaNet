@@ -2,13 +2,13 @@
 ### Learning the context of images, and rotating them according to human-perception.
 
 ## Screenshots
-<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-39-19.png" height="270" align="left">
+<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-39-19.png">
 
-<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-39-36.png" height="270" align="right">
+<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-39-36.png">
 
-<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-39-58.png" height="270" align="left">
+<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-39-58.png">
 
-<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-40-12.png" height="270" align="right">
+<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-40-12.png">
 
 #### What is 'E' in E-Rotanet?
 'E' stands for the Efficientnet backbone used in the model, to learn the features and the context of the images.<br>
