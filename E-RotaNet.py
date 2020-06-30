@@ -38,6 +38,8 @@ def upload_image():
 	if file and allowed_file(file.filename):
 		filename = secure_filename(file.filename)
 		save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+		if not os.path.exists(app.config['UPLOAD_FOLDER']):
+			os.makedirs(app.config['UPLOAD_FOLDER'])
 		file.save(save_path)
 		outputs = predict(save_path)
 		flash('Images saved at: ' + app.config['UPLOAD_FOLDER'])
