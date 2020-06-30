@@ -32,7 +32,7 @@ def preprocess_single_img(filepath, rotation=0, show=False, crop=True, dim=(224,
 
 
 if __name__ == "__main__":
-    _ = preprocess_single_img("../images/000001_0.jpg",
+    _ = preprocess_single_img("images/000001_0.jpg",
                             rotation=45,
                             show=True,
                             crop=False,

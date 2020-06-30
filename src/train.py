@@ -86,10 +86,10 @@ def train(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--image_dir', help='Path to images directory', default='../images/')
-    parser.add_argument('--model_save', help='Model output directory', default='../models/')
+    parser.add_argument('--image_dir', help='Path to images directory', default='images/')
+    parser.add_argument('--model_save', help='Model output directory', default='models/')
     parser.add_argument('--resume_training', help="Path to model checkpoint to resume training", default=None)
-    parser.add_argument('--tb_dir', help='Tensorboard logs directory', default='../logs/')
+    parser.add_argument('--tb_dir', help='Tensorboard logs directory', default='logs/')
     parser.add_argument('--batch_size', help='Batch size', default=32)
     parser.add_argument('--n_epochs', help='Number of epochs', default=20)
     parser.add_argument('--val_split', help='Validation split for images', default=0.2)

@@ -57,8 +57,8 @@ if __name__ == "__main__":
     from loss import angle_loss
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--image_path', help='Path to the image', default='../images/000001_0.jpg')
-    parser.add_argument('--model_path', help='Path to the model', default='../release/model.h5')
+    parser.add_argument('--image_path', help='Path to the image', default='images/000001_0.jpg')
+    parser.add_argument('--model_path', help='Path to the model', default='release/model.h5')
     parser.add_argument('--rotation', type=int, help='Rotation amount (-1 for random)', default=-1)
     parser.add_argument('--regress', help='Use regression instead of classification', action='store_true')
     parser.add_argument('--device', help="Use device for inference (gpu/cpu)", default='cpu')

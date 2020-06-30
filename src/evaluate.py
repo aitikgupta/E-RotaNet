@@ -71,7 +71,7 @@ def evaluate_single_with_all_rotations(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_dir', help='Path to model', default='../release/model.h5')
+    parser.add_argument('--model_dir', help='Path to model', default='release/model.h5')
     parser.add_argument('--eval_dir', help='Path to images directory (Images will be randomly rotated)', default=None)
     parser.add_argument('--eval_single', help='Path to the image (Image will be rotated from 0 to 360 degrees)', default=None)
     parser.add_argument('--batch_size', help='Batch size', default=32)
