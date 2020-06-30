@@ -1,15 +1,10 @@
 # E-RotaNet
 ### Learning the context of images, and rotating them according to human-perception.
 
-## Screenshots
-<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-39-19.png">
+## Demo
+<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/demo.gif">
 
-<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-39-36.png">
-
-<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-39-58.png">
-
-<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-40-12.png">
-
+### Note: Screenshots at the bottom
 #### What is 'E' in E-Rotanet?
 'E' stands for the Efficientnet backbone used in the model, to learn the features and the context of the images.<br>
 *EfficientNets are a family of image classification models, which achieve state-of-the-art accuracy, yet being an order-of-magnitude smaller and faster than previous models.*
@@ -123,6 +118,15 @@ conda activate e-rotanet
     >>[<PIL.Image.Image image mode=RGB size=1024x1280 at 0x7F47D4765080>, <PIL.Image.Image image mode=RGB size=1024x1280 at 0x7F47D4765BE0>, 163]
     ```
     <img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Figure_2.png" height="224">
+
+## Screenshots
+<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-39-19.png">
+
+<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-39-36.png">
+
+<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-39-58.png">
+
+<img src="https://raw.githubusercontent.com/aitikgupta/E-RotaNet/master/screenshots/Screenshot%20from%202020-06-30%2009-40-12.png">
 
   #### Note: Model is still under development
 
