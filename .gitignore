@@ -1,0 +1,7 @@
+.vscode/
+*__pycache__/
+images/
+logs/
+model_checkpoints/
+release/model_*
+static/uploads/*
