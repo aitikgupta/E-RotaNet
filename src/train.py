@@ -24,7 +24,10 @@ def train(args):
         for layer in efficientnet_backbone.layers[:-20]:
             layer.trainable = False
 
-        fcl = Dense(360, activation='softmax', kernel_initializer='glorot_uniform', name='output')(efficientnet_backbone.output)
+        if args['regress']:
+            fcl = Dense(1, activation=None, kernel_initializer='glorot_uniform', name='output')(efficientnet_backbone.output)
+        else:
+            fcl = Dense(360, activation='softmax', kernel_initializer='glorot_uniform', name='output')(efficientnet_backbone.output)
 
         model = Model(inputs=efficientnet_backbone.input, outputs=fcl)
 
@@ -55,7 +58,7 @@ def train(args):
                                 shuffle=True, show_intermediate=False, regress=args['regress'])
 
 
-    checkpoint_dir = '../model_checkpoints' if args['resume_training'] is None else args['resume_training']
+    checkpoint_dir = 'model_checkpoints' if args['resume_training'] is None else args['resume_training']
     
     # Defining callbacks
     rlr = ReduceLROnPlateau(monitor='val_angle_loss', patience=1, verbose=1, min_lr=1e-6)
@@ -64,7 +67,10 @@ def train(args):
     ckpt = ModelCheckpoint(filepath=checkpoint_dir, monitor='val_angle_loss', verbose=1, save_best_only=True)
 
     # Compiling the model
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=[angle_loss])
+    if args['regress']:
+        model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=[lambda x,y: angle_loss(x, y, regress=True)])
+    else:
+        model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=[angle_loss])
     print(model.summary())
 
     # Start training
@@ -81,18 +87,18 @@ def train(args):
     
     # Saving the trained model
     print("Saving model to:", args['model_save'])
-    model.save(os.path.join(args['model_save'], "model.h5"))
+    model.save(os.path.join(args['model_save']))
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--image_dir', help='Path to images directory', default='images/')
-    parser.add_argument('--model_save', help='Model output directory', default='models/')
+    parser.add_argument('--model_save', help='Model output path. eg. ./models/model_1.h5', default='models/model.h5')
     parser.add_argument('--resume_training', help="Path to model checkpoint to resume training", default=None)
     parser.add_argument('--tb_dir', help='Tensorboard logs directory', default='logs/')
-    parser.add_argument('--batch_size', help='Batch size', default=32)
-    parser.add_argument('--n_epochs', help='Number of epochs', default=20)
-    parser.add_argument('--val_split', help='Validation split for images', default=0.2)
+    parser.add_argument('--batch_size', type=int, help='Batch size', default=32)
+    parser.add_argument('--n_epochs', type=int, help='Number of epochs', default=20)
+    parser.add_argument('--val_split', type=float, help='Validation split for images', default=0.2)
     parser.add_argument('--img_size', help='Input size of image to the model', default=(224,224))
     parser.add_argument('--regress', help='Use regression instead of classification', action='store_true')
     parser.add_argument('--device', help="Use device for inference (gpu/cpu)", default='cpu')
