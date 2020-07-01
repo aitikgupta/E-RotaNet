@@ -10,7 +10,7 @@ from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.models import Sequential, Model, load_model
 
 from generator import DataGenerator
-from loss import angle_loss
+from loss import angle_loss, angle_loss_regress
 
 
 def train(args):
@@ -61,14 +61,20 @@ def train(args):
     checkpoint_dir = 'model_checkpoints' if args['resume_training'] is None else args['resume_training']
     
     # Defining callbacks
-    rlr = ReduceLROnPlateau(monitor='val_angle_loss', patience=1, verbose=1, min_lr=1e-6)
-    es = EarlyStopping(monitor='val_angle_loss', patience=2, verbose=1, restore_best_weights=True)
+    if args['regress']:
+        rlr = ReduceLROnPlateau(monitor='val_angle_loss_regress', patience=1, verbose=1, min_lr=1e-6)
+        es = EarlyStopping(monitor='val_angle_loss_regress', patience=2, verbose=1, restore_best_weights=True)
+        ckpt = ModelCheckpoint(monitor='val_angle_loss_regress', filepath=checkpoint_dir, verbose=1, save_best_only=True)
+    else:
+        rlr = ReduceLROnPlateau(monitor='val_angle_loss', patience=1, verbose=1, min_lr=1e-6)
+        es = EarlyStopping(monitor='val_angle_loss', patience=2, verbose=1, restore_best_weights=True)
+        ckpt = ModelCheckpoint(monitor='val_angle_loss', filepath=checkpoint_dir, verbose=1, save_best_only=True)
+    
     tsb = TensorBoard(log_dir=args['tb_dir'], histogram_freq=0, write_images=True, write_graph=False, update_freq='batch')
-    ckpt = ModelCheckpoint(filepath=checkpoint_dir, monitor='val_angle_loss', verbose=1, save_best_only=True)
 
     # Compiling the model
     if args['regress']:
-        model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=[lambda x,y: angle_loss(x, y, regress=True)])
+        model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=[angle_loss_regress])
     else:
         model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=[angle_loss])
     print(model.summary())

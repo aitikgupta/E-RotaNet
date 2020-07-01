@@ -9,7 +9,7 @@ from tqdm import tqdm
 import numpy as np
 
 from generator import DataGenerator
-from loss import angle_loss
+from loss import angle_loss, angle_loss_regress
 from preprocess import preprocess_single_img
 
 def evaluate_dir_random_rotation(args):
@@ -31,7 +31,10 @@ def evaluate_dir_random_rotation(args):
     )
 
     # Loading model
-    model = load_model(args['model_dir'], custom_objects={"angle_loss": angle_loss})
+    if args['regress']:
+        model = load_model(args['model_dir'], custom_objects={"angle_loss_regress": angle_loss_regress})
+    else:
+        model = load_model(args['model_dir'], custom_objects={"angle_loss": angle_loss})
 
     # Running evaluation
     out = model.evaluate(
@@ -46,7 +49,10 @@ def evaluate_single_with_all_rotations(args):
     Evaluates a single image, from 0->360 degrees rotation, and prints the mean angle_loss
     '''
     # Loading the model
-    model = load_model(args['model_dir'], custom_objects={"angle_loss": angle_loss})
+    if args['regress']:
+        model = load_model(args['model_dir'], custom_objects={"angle_loss_regress": angle_loss_regress})
+    else:
+        model = load_model(args['model_dir'], custom_objects={"angle_loss": angle_loss})
     
     total_angle_loss = 0
     
@@ -63,7 +69,10 @@ def evaluate_single_with_all_rotations(args):
 
         inp = np.expand_dims(img_processed, 0)
         pred = model.predict(inp)
-        pred_angle = np.argmax(pred)
+        if args['regress']:
+            pred_angle = pred*360 % 360 if pred*360 > 0 else 360 - (abs(pred*360) % 360)
+        else:
+            pred_angle = np.argmax(pred)
 
         total_angle_loss += abs(pred_angle - current_rotation_angle)
     
@@ -87,12 +96,12 @@ if __name__ == "__main__":
         os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     
     try:
-        assert args.eval_dir is not None and args.eval_single is not None
+        assert args.eval_dir is not None or args.eval_single is not None
     except AssertionError as e:
         e.args = ["Both --eval_dir and --eval_single can't be None, Run 'python evaluate.py --help' for more information"]
         raise
 
     if args.eval_single is not None:
-        evaluate_single_with_all_rotations(args)
+        evaluate_single_with_all_rotations(args.__dict__)
     else:
-        evaluate_dir_random_rotation(args)
+        evaluate_dir_random_rotation(args.__dict__)

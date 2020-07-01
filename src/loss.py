@@ -2,17 +2,24 @@ import numpy as np
 import tensorflow.keras.backend as K
 
 
-def angle_loss(angle_true, angle_pred, regress=False):
+def angle_loss(angle_true, angle_pred):
     '''
-    custom loss function
+    Angle loss for classification
     '''
-    if regress:
-        angle_difference = absolute_difference_between_angles(angle_true, angle_pred)
-    else:
-        angle_difference = absolute_difference_between_angles(K.argmax(angle_true),
+    angle_difference = absolute_difference_between_angles(K.argmax(angle_true),
                                                                 K.argmax(angle_pred))
    
     return K.mean(K.cast_to_floatx(K.abs(angle_difference)))
+
+def angle_loss_regress(angle_true, angle_pred):
+    '''
+    Angle loss for regression
+    '''
+    angle_difference = absolute_difference_between_angles(angle_true,
+                                                                angle_pred)
+    
+    return K.mean(K.cast_to_floatx(K.abs(angle_difference)))
+
 
 def absolute_difference_between_angles(x, y):
     '''
@@ -28,7 +35,7 @@ if __name__ == '__main__':
     angle_truths = np.expand_dims(np.array([60/360., 90/360.]), 0)
     angle_preds = np.expand_dims(np.array([355/360., 360/360.]), 0)
 
-    print(f"Total Error: {angle_loss(angle_truths, angle_preds, regress=True).numpy()}")
+    print(f"Total Error: {angle_loss_regress(angle_truths, angle_preds).numpy()}")
     # print(angle_truths.shape, angle_preds.shape)
     
     print(f"Absolute differences between angles:")

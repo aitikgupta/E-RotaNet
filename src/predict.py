@@ -28,7 +28,7 @@ def predict_single(args, show=False, crop=True):
     pred = args['model_path'].predict(input_to_model)
 
     if args['regress']:
-        pred_angle = pred*360
+        pred_angle = pred*360 % 360 if pred*360 > 0 else 360 - (abs(pred*360) % 360)
     else:
         pred_angle = np.argmax(pred)
     
@@ -54,7 +54,7 @@ def predict_single(args, show=False, crop=True):
 
 if __name__ == "__main__":
     from tensorflow.keras.models import load_model
-    from loss import angle_loss
+    from loss import angle_loss, angle_loss_regress
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--image_path', help='Path to the image', default='images/000001_0.jpg')
@@ -70,7 +70,11 @@ if __name__ == "__main__":
     else:
         os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     
-    model = load_model(args.model_path, custom_objects={'angle_loss': angle_loss})
+    if args.regress:
+        model = load_model(args.model_path, custom_objects={'angle_loss_regress': angle_loss_regress})    
+    else:
+        model = load_model(args.model_path, custom_objects={'angle_loss': angle_loss})
+    
     args.model_path = model
 
     print(predict_single(args.__dict__, show=True, crop=True))
